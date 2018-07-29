@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  content: MyText
+  datetime_field: 2018-07-29 12:18:44
+  time_field: 2018-07-29 12:18:44
+  datefield: 2018-07-29
+  timestamp_field: 2018-07-29 12:18:44
+
+two:
+  title: MyString
+  content: MyText
+  datetime_field: 2018-07-29 12:18:44
+  time_field: 2018-07-29 12:18:44
+  datefield: 2018-07-29
+  timestamp_field: 2018-07-29 12:18:44
