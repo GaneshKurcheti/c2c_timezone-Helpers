@@ -73,6 +73,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
+    ctoc_timezone (0.1.0)
     duktape (2.0.1.0)
     erubi (1.7.1)
     execjs (2.7.0)
@@ -190,6 +191,7 @@ DEPENDENCIES
   capybara (>= 2.15, < 4.0)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  ctoc_timezone
   duktape
   jbuilder (~> 2.5)
   mysql2 (>= 0.4.4, < 0.6.0)

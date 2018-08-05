@@ -9,3 +9,12 @@ class DateTime
   extend CToCTimezone::ClassMethods
   include CToCTimezone::InstanceMethods
 end
+#
+# In rails the DateTime Objects are converted to the TimeWithZone class.
+#
+class ActiveSupport::TimeWithZone
+  extend CToCTimezone::ClassMethods
+  include CToCTimezone::InstanceMethods
+end
+
+end
