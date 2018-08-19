@@ -4,6 +4,7 @@ class StoriesController < ActionController::Base
   # GET /stories
   # GET /stories.json
   def index
+    byebug
     @stories = Story.all
   end
 

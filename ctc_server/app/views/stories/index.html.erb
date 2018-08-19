@@ -15,7 +15,7 @@
       <tr>
         <td><%= story.title %></td> 
         <td><%= story.content %></td> 
-        <td><%= story.datetime_field.ctoc_timezone%></td> 
+        <td><%= story.datetime_field.ctoc_timezone.html_safe%></td> 
         <td><%= link_to 'Show', story %></td>
         <td><%= link_to 'Edit', edit_story_path(story) %></td>
         <td><%= link_to 'Destroy', story, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -23,7 +23,27 @@
     <% end %>
   </tbody>
 </table>
-
+<script type="text/javascript">
+  function convertToClient(node){
+    node.innerHTML=""
+    timeToConvert=node.getAttribute('data-ctoc-time');
+    clientTime = new Date(timeToConvert);
+    result=clientTime;
+    if(node.getAttribute('data-ctoc-callback')!=""){
+      result=eval(node.getAttribute('data-ctoc-callback'));
+    }
+    else{
+      node.innerHTML=result;
+    }
+  }
+  function initiateConversion(){
+    nodesToConvert=document.querySelectorAll('[data-ctoc-timezone]');
+    for(i = 0; i < nodesToConvert.length; i++){
+      convertToClient(nodesToConvert[i]);
+    }
+  }
+  initiateConversion();
+</script>
 <br>
 
 <%= link_to 'New Story', new_story_path %>
