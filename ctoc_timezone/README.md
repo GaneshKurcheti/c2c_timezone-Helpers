@@ -25,6 +25,10 @@ Or install it yourself as:
 TODO: Write usage instructions here
 
 ## Development
+data-ctoc-timezone : current status of the div tag (whether it holds the srever time or the client)
+data-ctoc-time: time that requires to convert.
+data-ctoc-req-zone: any timezone required
+data-ctoc-callback: send the converted time to differentfunction mentioned by the user. 
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
