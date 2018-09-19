@@ -1,3 +1,6 @@
+
+<%= javascript_include_tag "/js/ctoc-timezone.js", type: "text/javascript" %>
+
 <p id="notice"><%= notice %></p>
 
 <table>
@@ -23,27 +26,6 @@
     <% end %>
   </tbody>
 </table>
-<script type="text/javascript">
-  function convertToClient(node){
-    node.innerHTML=""
-    timeToConvert=node.getAttribute('data-ctoc-time');
-    clientTime = new Date(timeToConvert);
-    result=clientTime;
-    if(node.getAttribute('data-ctoc-callback')!=""){
-      result=eval(node.getAttribute('data-ctoc-callback'));
-    }
-    else{
-      node.innerHTML=result;
-    }
-  }
-  function initiateConversion(){
-    nodesToConvert=document.querySelectorAll('[data-ctoc-timezone]');
-    for(i = 0; i < nodesToConvert.length; i++){
-      convertToClient(nodesToConvert[i]);
-    }
-  }
-  initiateConversion();
-</script>
 <br>
 
 <%= link_to 'New Story', new_story_path %>

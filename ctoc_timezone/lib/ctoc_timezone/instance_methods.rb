@@ -2,12 +2,14 @@ module CToCTimezone
 
   module InstanceMethods
 
-    def ctoc_timezone (insta_load=false, run_call_back_script=false, call_back_script="")
+    def ctoc_timezone (insta_load=false, run_call_back_script=false, call_back_script="", timezone=)
       time_string = modify_time
-      if is_production?
-        "<div data-ctoc-timezone=\"server\" data-ctoc-time=\""+time_string+"\" data-ctoc-callback=\'#{call_back_script}\'></div>"
+      if is_production? 
+        return "<div data-ctoc-timezone=\"server\" data-ctoc-time=\""+time_string+"\" data-ctoc-callback=\'#{call_back_script}\'></div>" unless insta_load
+        "<div data-ctoc-timezone=\"server\" data-ctoc-time=\""+time_string+"\" data-ctoc-callback=\'#{call_back_script}\'></div><script>CToCTimezone.somemethod();</script>"
       else
-        "<div data-ctoc-timezone=\"server\" data-ctoc-time=\""+time_string+"\" data-ctoc-callback=\'#{call_back_script}\' >js error: check if js library is attached</div>"
+        return "<div data-ctoc-timezone=\"server\" data-ctoc-time=\""+time_string+"\" data-ctoc-callback=\'#{call_back_script}\' >js error: check if js library is attached</div>" unless insta_load
+        "<div data-ctoc-timezone=\"server\" data-ctoc-time=\""+time_string+"\" data-ctoc-callback=\'#{call_back_script}\'>js error: check if js library is attached</div><script>CToCTimezone.somemethod();</script>"
       end
     end
 
