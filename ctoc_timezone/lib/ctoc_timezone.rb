@@ -11,6 +11,9 @@ class DateTime
   def env_determine
     ::Rails.env.production?
   end
+  def haai 
+    puts "testsingf s"
+  end
 end
 #
 # In rails the DateTime Objects are converted to the TimeWithZone class.
@@ -20,5 +23,8 @@ class ActiveSupport::TimeWithZone
   include CToCTimezone::InstanceMethods
   def env_determine
     ::Rails.env.production?
+  end
+  def haai 
+    puts "testsingf s"
   end
 end
