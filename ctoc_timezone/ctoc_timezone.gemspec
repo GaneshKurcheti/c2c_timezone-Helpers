@@ -3,7 +3,7 @@
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "ctoc_timezone/version"
-
+ puts "haiiiii"
 Gem::Specification.new do |spec|
   spec.name          = "ctoc_timezone"
   spec.version       = CtocTimezone::VERSION
