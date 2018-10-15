@@ -23,54 +23,61 @@ var CtoCTimezone = (function () {
   var convertToClient = function (node) {
     node.innerHTML = ""
     var timeToConvert = node.getAttribute('data-ctoc-time');
-    var clientTime = new Date(timeToConvert);
-    var zone = node.getAttribute('data-ctoc-req-zone');
-    if (node.getAttribute('data-ctoc-req-zone') != "" && node.getAttribute('data-ctoc-req-zone') != null) {
-      // Need to handle this to convert to zonal specific Date Object 
+    // Dateobject is created with the time information returned from the server.
+    var clientTimeObject = new Date(timeToConvert);
+    // Dateobject is created with the time information returned from the server.
+    // clientTime has the the equivalent from server in host timezone.
+    var clientTime=clientTimeObject.toDateString();
+    if (node.getAttribute('data-ctoc-req-zone') !== "" && node.getAttribute('data-ctoc-req-zone') !== null) {
+      // Need to handle this to convert to zonal specific Date Object. 
       var clientTimeZone = node.getAttribute('data-ctoc-req-zone')
-      clientTime = calcTime(clientTime, clientTimeZone)
-
+      clientTime = convertTime(clientTimeObject, clientTimeZone)
+      
     }
-    
+    if (node.getAttribute('data-ctoc-req-format') !=="" && node.getAttribute('data-ctoc-req-format') !== null)
+    {
     var reqFormat=node.getAttribute('data-ctoc-req-format')
-    var clientTimeString=convertToFormat(reqFormat,clientTime,clientTimeZone)
-    var result = clientTimeString;
-    // if (node.getAttribute('data-ctoc-callback') != "" && node.getAttribute('data-ctoc-callback') != null) {
-    //   executeCallback(node.getAttribute('data-ctoc-callback'), clientTime);
-    // }
+     clientTime=convertToFormat(reqFormat,clientTimeObject,clientTimeZone)
+    }
+
+    var result =clientTime;
+   
     node.innerHTML = result;
     node.setAttribute("data-ctoc-timezone", "client");
   };
 
 
-
-
-
   /*
-  * When user intends to send the date object generated to the other call back function.
+    * The actual raw conversion from one timezone to other takes place here.
+    * cal
+    
+    
+    
+    
+    
+    
+    
+    */
 
-  * This is used if the user dont intend to get the converted timezone value just to the html page.
+  function convertTime(clientTimeObject,timeZone)
+  {
+    if(timeZone==="")
+    return clientTimeObject.toDateString();
+    var convertedTime=calcTime(clientTimeObject,timeZone);
+    
+    
+    return convertToFormat("",convertedTime,timeZone);
 
-  * Params callbackString: This is the required method to which the date object need to be sent.
-
-  * Params ctocTime: This the time object that is need to convert. 
-  */
-
-  // var executeCallback = function (callbackString, ctocTime) {
-  //   var namespacesCheck = callbackString.split(".");
-  //   var functionToCall = namespacesCheck.pop();
-  //   var context = window;
-  //   for (var i = 0; i < namespacesCheck.length; i++) {
-  //     context = context[namespacesCheck[i]];
-  //   }
-  //   return context[functionToCall].apply(context, ctocTime);
-  // };
+  }
+  
+  
 
 
+  
 
+  function calcTime(clientTimeObject, timeZone) {
 
-
-  function calcTime(clientTime, timeZone) {
+    
       var offset;
       const  offsetarray = [
       ['CET', '1'], ['DFT', '1'], ['MET', '1'], ['WAT', '1'], ['WEST', '1'], ['CAT', '2'], ['CEST', '2'], ['EET', '2'], ['HAEC', '2'],
@@ -114,7 +121,7 @@ var CtoCTimezone = (function () {
     // add local time zone offset 
     // get UTC time in msec
 
-    var utc = clientTime.getTime() + (clientTime.getTimezoneOffset() * 60000);
+    var utc = clientTimeObject.getTime() + (clientTimeObject.getTimezoneOffset() * 60000);
 
     // create new Date object for different city
     // using supplied offset
@@ -125,7 +132,7 @@ var CtoCTimezone = (function () {
         var colonIndex=timeZone.indexOf(":");
         var minutes=timeZone.substring(colonIndex+1);
         var minutesInHours=parseFloat(parseInt(minutes)/60);
-        offset=parseFloat(parseInt(timeZone.substring(0,colonIndex))+minutes);
+        offset=parseFloat(parseInt(timeZone.substring(0,colonIndex))+minutesInHours);
         var newdate = new Date(utc + (3600000 * offset));
       }
       else{
@@ -146,12 +153,17 @@ var CtoCTimezone = (function () {
 
   var convertToFormat = function (dateformat, newdate,clientTimeZone) {
     var req_Format=dateformat;
-    if(dateformat!=""&&dateformat!=null){
+    if(dateformat!==""&&dateformat!==null){
       var formattemp = dateformat;
     }
     else{
-      var formattemp = "ddd MMM dd yyyy hh:mm:ss ";
-      dateformat="ddd MMM dd yyyy hh:mm:ss ";
+      if(clientTimeZone==="")
+      return newdate.toString();
+      else
+      {
+        var dateString=newdate.toLocaleString()+" " +clientTimeZone;
+      return dateString;
+      }
     }
     var i = 0,j;
     var countchar = 0;
@@ -263,6 +275,12 @@ var CtoCTimezone = (function () {
     var ctoCTimezone = {};
     ctoCTimezone.runInstaLoad = function () {
       initiateConversion();
+    };
+    ctoCTimezone.convertTime = function(clientTimeObject,timeZone){
+     return convertTime(clientTimeObject,timeZone);
+    };
+    ctoCTimezone.convertToFormat = function(dateformat, newdate,clientTimeZone){
+     return  convertToFormat(dateformat, newdate,clientTimeZone);
     };
 
     // Convert elements on the window load. 

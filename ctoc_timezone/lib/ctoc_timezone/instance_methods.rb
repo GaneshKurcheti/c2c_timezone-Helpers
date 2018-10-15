@@ -1,6 +1,6 @@
 module CToCTimezone
   module InstanceMethods
-    def ctoc_timezone (insta_load=false, run_call_back_script=false, call_back_script="", req_zone="America/Lima",req_format="ddd Do mm yyyy hh:mm:ss" )
+    def ctoc_timezone (insta_load=false, run_call_back_script=false, call_back_script="", req_zone="",req_format="" )
       time_string = modify_time
       if is_production? 
         return "<div data-ctoc-timezone=\"server\" data-ctoc-time=\""+time_string+"\" data-ctoc-req-zone=\""+req_zone+"\" data-ctoc-req-format=\""+req_format+"\"data-ctoc-callback=\'#{call_back_script}\'></div>" unless insta_load
